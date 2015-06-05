@@ -31,7 +31,9 @@
     <docker.port.container.jolokia>8778</docker.port.container.jolokia>
     <docker.port.container.http>8181</docker.port.container.http>
     <fabric8.env.AMQ_SERVICE_ID>FABRIC8MQ</fabric8.env.AMQ_SERVICE_ID>
-      
+    <jube.version>2.1.5</jube.version>
+    <docker.maven.plugin.version>0.11.5</docker.maven.plugin.version>
+
 
   </properties>
 
