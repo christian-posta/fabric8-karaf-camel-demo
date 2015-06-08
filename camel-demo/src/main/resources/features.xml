@@ -21,9 +21,8 @@
 
     <repository>mvn:org.apache.camel.karaf/apache-camel/${camel.version}/xml/features</repository>
     <repository>mvn:org.apache.activemq/activemq-karaf/${activemq.version}/xml/features-core</repository>
-    <repository>mvn:org.apache.karaf.assemblies.features/spring/${karaf.version}/xml/features</repository>
 
-  <feature name="${project.artifactId}" version="${project.version}" resolver="(obr)">
+  <feature name="fabric8-karaf-camel-demo" version="${project.version}" resolver="(obr)">
     <feature version="${camel.version}">camel</feature>
     <feature version="${camel.version}">camel-jms</feature>
       <feature version="${activemq.version}">activemq-client</feature>

@@ -8,8 +8,8 @@
   <artifactId>fabric8-karaf-camel-demo</artifactId>
   <version>1.0-SNAPSHOT</version>
   <modules>
-    <module>karaf-assembly</module>
     <module>camel-demo</module>
+    <module>karaf-assembly</module>
   </modules>
   <packaging>pom</packaging>
   <name>Fabric8 :: Quickstarts :: Karaf :: Camel using ActiveMQ</name>

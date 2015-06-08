@@ -10,6 +10,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>camel-demo</artifactId>
+  <packaging>bundle</packaging>
 
   <dependencies>
     <dependency>
@@ -55,7 +56,7 @@
             <configuration>
               <artifacts>
                 <artifact>
-                  <file>src/fabric8/features.xml</file>
+                  <file>target/classes/features.xml</file>
                   <classifier>features</classifier>
                   <type>xml</type>
                 </artifact>

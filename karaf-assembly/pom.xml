@@ -33,21 +33,21 @@
       <classifier>features</classifier>
       <type>xml</type>
     </dependency>
-
-    <!--<dependency>-->
-    <!--<groupId>org.apache.camel.karaf</groupId>-->
-    <!--<artifactId>apache-camel</artifactId>-->
-    <!--<version>${camel.version}</version>-->
-    <!--<classifier>features</classifier>-->
-    <!--<type>xml</type>-->
-    <!--</dependency>-->
-    <!--<dependency>-->
-    <!--<groupId>org.apache.activemq</groupId>-->
-    <!--<artifactId>activemq-karaf</artifactId>-->
-    <!--<version>${activemq.version}</version>-->
-    <!--<classifier>features</classifier>-->
-    <!--<type>xml</type>-->
-    <!--</dependency>-->
+    <dependency>
+      <groupId>org.apache.karaf.features</groupId>
+      <artifactId>enterprise</artifactId>
+      <classifier>features</classifier>
+      <version>4.0.0-SNAPSHOT</version>
+      <type>xml</type>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.fabric8.karaf.demo</groupId>
+      <artifactId>camel-demo</artifactId>
+      <version>1.0-SNAPSHOT</version>
+      <classifier>features</classifier>
+      <type>xml</type>
+    </dependency>
   </dependencies>
 
   <build>
@@ -112,7 +112,8 @@
           </execution>
         </executions>
         <configuration>
-          <karafVersion>v24</karafVersion>
+          <!--<karafVersion>v24</karafVersion>-->
+          <karafVersion>v4x</karafVersion>
           <!--avoid copying all of the jars to the cache-->
           <useReferenceUrls>true</useReferenceUrls>
           <installAllFeaturesByDefault>false</installAllFeaturesByDefault>
@@ -140,9 +141,9 @@
             <feature>package</feature>
             <feature>service</feature>
             <feature>system</feature>
+            <feature>fabric8-karaf-camel-demo</feature>
           </startupFeatures>
           <bootFeatures>
-            <!--<feature>camel</feature>-->
           </bootFeatures>
         </configuration>
       </plugin>
