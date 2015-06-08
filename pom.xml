@@ -50,17 +50,64 @@
   </dependencyManagement>
 
   <dependencies>
+
+    <dependency>
+      <groupId>org.apache.karaf.features</groupId>
+      <artifactId>framework</artifactId>
+      <version>4.0.0-SNAPSHOT</version>
+      <type>kar</type>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.karaf.features</groupId>
+      <artifactId>standard</artifactId>
+      <version>4.0.0-SNAPSHOT</version>
+      <classifier>features</classifier>
+      <type>xml</type>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.karaf.features</groupId>
+      <artifactId>spring</artifactId>
+      <version>4.0.0-SNAPSHOT</version>
+      <classifier>features</classifier>
+      <type>xml</type>
+    </dependency>
+    <!--<dependency>-->
+      <!--<groupId>org.apache.camel.karaf</groupId>-->
+      <!--<artifactId>apache-camel</artifactId>-->
+      <!--<version>${camel.version}</version>-->
+      <!--<classifier>features</classifier>-->
+      <!--<type>xml</type>-->
+    <!--</dependency>-->
+    <!--<dependency>-->
+      <!--<groupId>org.apache.activemq</groupId>-->
+      <!--<artifactId>activemq-karaf</artifactId>-->
+      <!--<version>${activemq.version}</version>-->
+      <!--<classifier>features</classifier>-->
+      <!--<type>xml</type>-->
+    <!--</dependency>-->
+
+    <!--Project features-->
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>${project.artifactId}</artifactId>
+      <version>${project.version}</version>
+      <classifier>features</classifier>
+      <type>xml</type>
+    </dependency>
     <!--
       For this example, we will be using the OSGi Blueprint XML syntax for Apache Camel.
     -->
     <dependency>
       <groupId>org.apache.camel</groupId>
       <artifactId>camel-blueprint</artifactId>
+      <version>${camel.version}</version>
+      <scope>runtime</scope>
     </dependency>
 
     <dependency>
-        <groupId>io.fabric8.mq</groupId>
-        <artifactId>camel-amq</artifactId>
+      <groupId>io.fabric8.mq</groupId>
+      <artifactId>camel-amq</artifactId>
+      <scope>runtime</scope>
     </dependency>
 
   </dependencies>
@@ -142,41 +189,6 @@
             </executions>
         </plugin>
       <plugin>
-        <groupId>org.apache.karaf.tooling</groupId>
-        <artifactId>features-maven-plugin</artifactId>
-        <version>2.4.0</version>
-        <executions>
-          <execution>
-            <id>add-features-to-repo</id>
-            <phase>package</phase>
-            <goals>
-              <goal>add-features-to-repo</goal>
-            </goals>
-            <!-- We populate the offline repository -->
-            <configuration>
-              <descriptors>
-                <descriptor>file://${project.build.directory}/fabric8/features.xml</descriptor>
-              </descriptors>
-              <repository>target/fabric8/repository/</repository>
-              <addTransitiveFeatures>true</addTransitiveFeatures>
-              <features>
-                <feature>${project.artifactId}</feature>
-              </features>
-            </configuration>
-          </execution>
-          <execution>
-            <id>create-kar</id>
-            <phase>package</phase>
-            <goals>
-              <goal>create-kar</goal>
-            </goals>
-            <configuration>
-              <featuresFile>${project.build.directory}/fabric8/features.xml</featuresFile>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
         <groupId>org.jolokia</groupId>
         <artifactId>docker-maven-plugin</artifactId>
         <version>${docker.maven.plugin.version}</version>
@@ -194,6 +206,82 @@
             </image>
           </images>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.karaf.tooling</groupId>
+        <artifactId>karaf-maven-plugin</artifactId>
+        <version>4.0.0-SNAPSHOT</version>
+        <executions>
+          <execution>
+            <id>process-resources</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>assembly</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>package</id>
+            <goals>
+              <goal>archive</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <karafVersion>v24</karafVersion>
+          <!--avoid copying all of the jars to the cache-->
+          <useReferenceUrls>true</useReferenceUrls>
+          <installAllFeaturesByDefault>false</installAllFeaturesByDefault>
+          <installedFeatures>
+          </installedFeatures>
+          <startupFeatures>
+            <feature>framework</feature>
+            <feature>eventadmin</feature>
+            <feature>wrap</feature>
+            <feature>aries-blueprint</feature>
+            <feature>shell</feature>
+            <feature>shell-compat</feature>
+            <feature>feature</feature>
+            <feature>jaas</feature>
+            <feature>ssh</feature>
+            <feature>management</feature>
+            <feature>bundle</feature>
+            <feature>config</feature>
+            <feature>deployer</feature>
+            <feature>diagnostic</feature>
+            <feature>feature</feature>
+            <feature>instance</feature>
+            <feature>kar</feature>
+            <feature>log</feature>
+            <feature>package</feature>
+            <feature>service</feature>
+            <feature>system</feature>
+          </startupFeatures>
+          <bootFeatures>
+            <!--<feature>camel</feature>-->
+          </bootFeatures>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>attach-artifacts</id>
+            <phase>compile</phase>
+            <goals>
+              <goal>attach-artifact</goal>
+            </goals>
+            <configuration>
+              <artifacts>
+                <artifact>
+                  <file>src/fabric8/features.xml</file>
+                  <classifier>features</classifier>
+                  <type>xml</type>
+                </artifact>
+              </artifacts>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
